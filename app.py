@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json, os
 
 app = Flask(__name__)
@@ -20,6 +20,26 @@ pdu_options = load_pdus()
 def save_data():
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=2)
+
+def load_data():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, 'r') as f:
+            return json.load(f)
+    else:
+        return {}  # return empty dict if file doesn't exist
+
+def save_data(data):
+    with open(DATA_FILE, 'w') as f:
+        json.dump(data, f, indent=2)
+
+@app.route('/api/device/<serial>', methods=['GET'])
+def get_device(serial):
+    data = load_data()
+    device = data.get(serial)
+    if device:
+        return jsonify({serial: device})
+    else:
+        return jsonify({"status": "error", "message": "Device not found"}), 404
 
 @app.route('/')
 def index():
