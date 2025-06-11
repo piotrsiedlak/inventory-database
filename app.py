@@ -32,6 +32,22 @@ def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=2)
 
+@app.route('/api/device', methods=['POST'])
+def get_device_by_body():
+    req_data = request.get_json()
+
+    if not req_data or 'serial' not in req_data:
+        return jsonify({"error": "Missing 'serial' in request body"}), 400
+
+    serial = req_data['serial']
+    data = load_data()
+    device = data.get(serial)
+
+    if device:
+        return jsonify({serial: device})
+    else:
+        return jsonify({"error": "Device not found"}), 404
+
 @app.route('/api/device/<serial>', methods=['GET'])
 def get_device(serial):
     data = load_data()
