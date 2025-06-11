@@ -10,7 +10,7 @@
     "comment": "Backup server"
   },
   "SN003": {
-    "pdu": "fpfh-za15",
+    "pdu": "UBS_B",
     "port": "4",
     "comment": "test inventory"
   }

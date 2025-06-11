@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Device</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], select {
+            padding: 6px;
+            width: 300px;
+            margin-top: 4px;
+        }
+        button, a.button {
+            padding: 6px 12px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        button:hover, a.button:hover { background-color: #0056b3; }
+        .error { color: red; margin-top: 10px; }
+        .form-container {
+            max-width: 500px;
+        }
+        input[type="text"], select {
+        padding: 6px;
+        width: 300px;
+        margin-top: 4px;
+        margin-bottom: 12px;
+        }
+    </style>
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- jQuery and Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <h1>Add New Device</h1>
+
+    <div class="form-container">
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="post">
+        <label for="serial">Serial (required):</label>
+        <input type="text" name="serial" id="serial" required>
+
+        <label for="pdu">PDU (required):</label>
+        <select name="pdu" id="pdu" required>
+            <option></option>  <!-- Empty for placeholder support -->
+            {% for pdu in pdu_options %}
+                <option value="{{ pdu }}">{{ pdu }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="port">Port (1-30) (required):</label>
+        <input type="number" name="port" id="port" min="1" max="30" required>
+
+        <label for="comment">Comment (optional):</label>
+        <input type="text" name="comment" id="comment">
+
+            <div style="margin-top: 20px;">
+                <button type="submit">Add Device</button>
+                <a href="{{ url_for('index') }}" class="button">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#pdu').select2({
+                placeholder: "-- Select PDU --",
+                width: 'resolve'
+            });
+        });
+    </script>
+</body>
+</html>

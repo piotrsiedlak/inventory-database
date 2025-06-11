@@ -11,6 +11,12 @@ if os.path.exists(DATA_FILE):
 else:
     data = {}  # serial -> {pdu, port, comment}
 
+def load_pdus():
+    with open("pdu_list.txt") as f:
+        return [line.strip() for line in f if line.strip()]
+
+pdu_options = load_pdus()
+
 def save_data():
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=2)
@@ -31,17 +37,28 @@ def index():
     return render_template('index.html', items=filtered)
 
 @app.route('/add', methods=['GET', 'POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add():
+    error = None
     if request.method == 'POST':
-        serial = request.form['serial']
-        data[serial] = {
-            'pdu': request.form['pdu'],
-            'port': request.form['port'],
-            'comment': request.form['comment']
-        }
-        save_data()
-        return redirect(url_for('index'))
-    return render_template('edit.html', item={})
+        serial = request.form.get('serial', '').strip()
+        pdu = request.form.get('pdu', '').strip()
+        port = request.form.get('port', '').strip()
+        comment = request.form.get('comment', '').strip()
+
+        # Validate required fields
+        if not serial or not pdu or not port:
+            error = "Serial, PDU, and Port are required."
+        elif pdu not in pdu_options:
+            error = f"PDU must be one of: {', '.join(pdu_options)}"
+        elif serial in data:
+            error = "Serial already exists."
+        else:
+            data[serial] = {'pdu': pdu, 'port': port, 'comment': comment}
+            save_data()
+            return redirect(url_for('index'))
+
+    return render_template('add.html', pdu_options=pdu_options, error=error)
 
 @app.route('/edit/<serial>', methods=['GET', 'POST'])
 def edit(serial):
