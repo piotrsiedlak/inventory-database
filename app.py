@@ -73,7 +73,6 @@ def index():
     return render_template('index.html', items=filtered)
 
 @app.route('/add', methods=['GET', 'POST'])
-@app.route('/add', methods=['GET', 'POST'])
 def add():
     error = None
     if request.method == 'POST':
