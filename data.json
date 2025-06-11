@@ -12,6 +12,66 @@
   "SN003": {
     "pdu": "UBS_B",
     "port": "4",
-    "comment": "test inventory"
+    "comment": "Test inventory"
+  },
+  "SN004": {
+    "pdu": "PDU3",
+    "port": "8",
+    "comment": "Firewall device"
+  },
+  "SN005": {
+    "pdu": "UBS_C",
+    "port": "12",
+    "comment": "Router panel"
+  },
+  "SN006": {
+    "pdu": "CORE_A",
+    "port": "1",
+    "comment": "Monitoring system"
+  },
+  "SN007": {
+    "pdu": "EDGE01",
+    "port": "7",
+    "comment": "IoT gateway"
+  },
+  "SN008": {
+    "pdu": "PDU4",
+    "port": "14",
+    "comment": "Access switch"
+  },
+  "SN009": {
+    "pdu": "UBS_A",
+    "port": "9",
+    "comment": "Control server"
+  },
+  "SN010": {
+    "pdu": "PDU5",
+    "port": "6",
+    "comment": "Storage node"
+  },
+  "SN011": {
+    "pdu": "EDGE02",
+    "port": "2",
+    "comment": "Edge router"
+  },
+  "SN012": {
+    "pdu": "CORE_B",
+    "port": "10",
+    "comment": "Database cluster"
+  },
+  "SN013": {
+    "pdu": "UBS_D",
+    "port": "11",
+    "comment": "UPS system"
+  },
+  "SN014": {
+    "pdu": "PDU6",
+    "port": "15",
+    "comment": "Dev rack"
+  },
+  "SN015": {
+    "pdu": "PDU7",
+    "port": "13",
+    "comment": "Web server node"
   }
 }
