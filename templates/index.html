@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Device Inventory</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        a.button, button {
+            padding: 5px 10px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+        }
+        a.button:hover, button:hover { background-color: #0056b3; }
+        .actions form { display: inline; }
+        form { margin-bottom: 15px; }
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Device Inventory</h1>
+
+    <div style="margin-bottom: 10px;">
+        <a href="{{ url_for('index') }}" class="button">Home</a>
+        <a href="{{ url_for('add') }}" class="button">Add New Device</a>
+    </div>
+
+    <form method="get" action="{{ url_for('index') }}">
+        <input type="text" name="q" placeholder="Search serial, pdu, port, comment"
+               value="{{ request.args.get('q', '') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Serial</th>
+                <th>PDU</th>
+                <th>Port</th>
+                <th>Comment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for serial, item in items.items() %}
+            <tr>
+                <td>{{ serial }}</td>
+                <td>{{ item.pdu }}</td>
+                <td>{{ item.port }}</td>
+                <td>{{ item.comment }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('edit', serial=serial) }}" class="button">Edit</a>
+                    <form action="{{ url_for('delete', serial=serial) }}" method="post">
+                        <button type="submit" onclick="return confirm('Delete this item?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">No devices found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

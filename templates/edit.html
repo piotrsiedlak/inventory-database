@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if serial %}Edit{% else %}Add{% endif %} Device</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    form {
+        max-width: 400px;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 6px;
+        margin-top: 4px;
+    }
+
+    /* --- Button Styles --- */
+
+    /* Base styles for all buttons */
+    .button {
+        display: inline-block; /* Ensures <a> tags behave like buttons */
+        margin-top: 15px;
+        padding: 8px 12px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Green "confirm" button */
+    .button-confirm {
+        background: #28a745;
+    }
+    .button-confirm:hover {
+        background: #218838;
+    }
+
+    /* Red "cancel" button */
+    .button-cancel {
+        background: #dc3545;
+    }
+    .button-cancel:hover {
+        background: #c82333;
+    }
+</style>
+</head>
+<body>
+    <h1>{% if serial %}Edit{% else %}Add{% endif %} Device</h1>
+    <form method="post">
+        {% if not serial %}
+        <label>Serial Number:
+            <input type="text" name="serial" required>
+        </label>
+        {% else %}
+        <p><strong>Serial:</strong> {{ serial }}</p>
+        {% endif %}
+
+        <label>PDU:
+            <input type="text" name="pdu" value="{{ item.pdu }}" required>
+        </label>
+        <label>Port:
+            <input type="text" name="port" value="{{ item.port }}" required>
+        </label>
+        <label>Comment:
+            <input type="text" name="comment" value="{{ item.comment }}">
+        </label>
+
+        <button type="submit" class="button button-confirm">Save</button>
+        <a href="{{ url_for('index') }}" class="button button-cancel">Cancel</a>
+    </form>
+</body>
+</html>

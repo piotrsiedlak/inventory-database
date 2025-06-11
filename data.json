@@ -1,0 +1,17 @@
+{
+  "SN001": {
+    "pdu": "PDU1",
+    "port": "3",
+    "comment": "Main switch"
+  },
+  "SN002": {
+    "pdu": "PDU2",
+    "port": "5",
+    "comment": "Backup server"
+  },
+  "SN003": {
+    "pdu": "fpfh-za15",
+    "port": "4",
+    "comment": "test inventory"
+  }
+}
