@@ -73,5 +73,10 @@
     "pdu": "PDU7",
     "port": "13",
     "comment": "Web server node"
+  },
+    "TEST_SN001": {
+    "pdu": "TEST_PDU7",
+    "port": "10",
+    "comment": "TEST_Pdu"
   }
 }
