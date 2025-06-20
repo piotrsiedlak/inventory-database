@@ -25,8 +25,9 @@ def test_post_device():
     assert response.status_code in (200, 201), f"POST failed: {response.status_code} {response.text}"
     data = response.json()
     pretty_print_json(data)
-    assert "serial" in data
-    assert data["serial"] == serial_number
+
+    assert serial_number in data
+    assert isinstance(data[serial_number], dict)
 
 def test_get_device():
     serial_number = "SN003"
@@ -35,5 +36,7 @@ def test_get_device():
     assert response.status_code == 200, f"GET failed: {response.status_code} {response.text}"
     data = response.json()
     pretty_print_json(data)
-    assert "serial" in data
-    assert data["serial"] == serial_number
+
+    assert serial_number in data
+    assert "pdu" in data[serial_number]
+    assert "port" in data[serial_number]
