@@ -36,8 +36,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Start API server
       run: |
-        nohup flask run --port=5000 &
-        sleep 2
+        nohup python app.py &  # lub flask run --port=5000 &
+        sleep 3
 
     - name: Run tests
       run: pytest
