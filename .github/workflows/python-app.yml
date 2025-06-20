@@ -38,9 +38,10 @@ jobs:
       run: |
         nohup python app.py &  # lub flask run --port=5000 &
         sleep 3
-
+    - name: Wait for API to be ready
+      run: |
+        for i in {1..10}; do
+          curl -s http://localhost:5000/api/device || sleep 1
+        done
     - name: Run tests
       run: pytest
-    - name: Test with pytest
-      run: |
-        pytest
