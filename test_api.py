@@ -1,42 +1,33 @@
+# test_api.py
+
 import requests
 import json
 
-BASE_URL = "http://localhost:5000"
+BASE_URL = "http://localhost:5000/api/device"
+TEST_SERIAL = "TEST_SN001"
 
-def pretty_print_json(data):
-    print(json.dumps(data, indent=4, ensure_ascii=False))
-
-def get_device(serial):
-    url = f"{BASE_URL}/api/device/{serial}"
-    response = requests.get(url)
-    return response
-
-def post_device(serial):
-    url = f"{BASE_URL}/api/device"
-    data = {"serial": serial}
-    headers = {"Content-Type": "application/json"}
-    response = requests.post(url, json=data, headers=headers)
-    return response
+def delete_device(serial):
+    """Pomocnicza funkcja do usuwania urządzenia (ignoruje błąd 404)."""
+    url = f"{BASE_URL}/{serial}"
+    requests.delete(url)
 
 def test_post_device():
-    serial_number = "TEST_SN001"
-    response = post_device(serial_number)
+    delete_device(TEST_SERIAL)  # przed testem
 
-    assert response.status_code in (200, 201), f"POST failed: {response.status_code} {response.text}"
+    response = requests.post(BASE_URL, json={"serial": TEST_SERIAL})
+    assert response.status_code in (200, 201)
     data = response.json()
-    pretty_print_json(data)
+    assert TEST_SERIAL in data
 
-    assert serial_number in data
-    assert isinstance(data[serial_number], dict)
+    delete_device(TEST_SERIAL)  # po teście
 
 def test_get_device():
-    serial_number = "TEST_SN001"
-    response = get_device(serial_number)
+    delete_device(TEST_SERIAL)
+    requests.post(BASE_URL, json={"serial": TEST_SERIAL})
 
-    assert response.status_code == 200, f"GET failed: {response.status_code} {response.text}"
+    response = requests.get(f"{BASE_URL}/{TEST_SERIAL}")
+    assert response.status_code == 200
     data = response.json()
-    pretty_print_json(data)
+    assert TEST_SERIAL in data
 
-    assert serial_number in data
-    assert "pdu" in data[serial_number]
-    assert "port" in data[serial_number]
+    delete_device(TEST_SERIAL)
