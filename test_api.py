@@ -19,7 +19,7 @@ def post_device(serial):
     return response
 
 def test_post_device():
-    serial_number = "SN003"
+    serial_number = "TEST_SN001"
     response = post_device(serial_number)
 
     assert response.status_code in (200, 201), f"POST failed: {response.status_code} {response.text}"
@@ -30,7 +30,7 @@ def test_post_device():
     assert isinstance(data[serial_number], dict)
 
 def test_get_device():
-    serial_number = "SN003"
+    serial_number = "TEST_SN001"
     response = get_device(serial_number)
 
     assert response.status_code == 200, f"GET failed: {response.status_code} {response.text}"
